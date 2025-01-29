@@ -1,4 +1,4 @@
-package com.example.icasei
+package com.example.icasei.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
