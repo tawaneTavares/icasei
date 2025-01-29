@@ -47,7 +47,7 @@ fun HomeScreen() {
             contentPadding = PaddingValues(top = 16.dp),
         ) {
             items(2) { index ->
-                VideoItem(modifier, title = index.toString()) //TODO: adicionar listagem vinda da api
+                VideoItem(modifier, title = index.toString(), false) //TODO: adicionar listagem vinda da api
             }
         }
     }
