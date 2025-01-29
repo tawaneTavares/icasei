@@ -28,18 +28,20 @@ fun VideoItem(modifier: Modifier, title: String, isFavorite: Boolean) {
         modifier = modifier.padding(top = 16.dp),
         horizontalAlignment = Alignment.Start,
     ) {
-        Box() {
+        Box {
             Image(
                 painter = painterResource(id = R.drawable.ic_default_thumbnail),
                 contentDescription = "video thumbnail",
                 contentScale = ContentScale.FillWidth,
-                modifier = modifier.fillMaxWidth()
+                modifier = modifier.fillMaxWidth(),
             )
 
             Icon(
                 imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "favorite",
-                modifier = Modifier.size(20.dp)
+                modifier =
+                Modifier
+                    .size(20.dp)
                     .align(Alignment.TopEnd),
                 tint = Color.White,
             )

@@ -17,16 +17,17 @@ import com.example.icasei.presentation.components.VideoItem
 fun FavoritesScreen() {
     val modifier = Modifier
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier =
+        modifier
+            .fillMaxSize()
             .background(Color.Black),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
         LazyColumn(
             contentPadding = PaddingValues(top = 16.dp),
         ) {
             items(2) { index ->
-                VideoItem(modifier, title = index.toString(), false) //TODO: adicionar listagem
+                VideoItem(modifier, title = index.toString(), false) // TODO: adicionar listagem
             }
         }
     }

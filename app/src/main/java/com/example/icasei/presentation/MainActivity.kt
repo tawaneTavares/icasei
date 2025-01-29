@@ -34,18 +34,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             IcaseiTheme {
                 val navController = rememberNavController()
-                val selected = remember {
-                    mutableStateOf(Icons.Default.Home)
-                }
+                val selected =
+                    remember {
+                        mutableStateOf(Icons.Default.Home)
+                    }
                 val modifier = Modifier
-                Scaffold(modifier = modifier.fillMaxSize(),
+                Scaffold(
+                    modifier = modifier.fillMaxSize(),
                     bottomBar = {
                         BottomAppBar {
                             BottomMenuIcon(
                                 modifier = modifier.weight(1f),
                                 icon = Icons.Default.Home,
                                 contentDescription = "Home",
-                                isSelected = (selected.value == Icons.Default.Home)
+                                isSelected = (selected.value == Icons.Default.Home),
                             ) { imageVector ->
                                 selected.value = imageVector
                                 /*todo: add navigation navController.navigate(~screen~) {
@@ -57,7 +59,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = modifier.weight(1f),
                                 icon = Icons.Default.Favorite,
                                 contentDescription = "Favorite",
-                                isSelected = (selected.value == Icons.Default.Favorite)
+                                isSelected = (selected.value == Icons.Default.Favorite),
                             ) { imageVector ->
                                 selected.value = imageVector
                                 /*todo: add navigation navController.navigate(~screen~) {
@@ -69,7 +71,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = modifier.weight(1f),
                                 icon = Icons.Default.PlayArrow,
                                 contentDescription = "My Lists",
-                                isSelected = (selected.value == Icons.Default.PlayArrow)
+                                isSelected = (selected.value == Icons.Default.PlayArrow),
                             ) { imageVector ->
                                 selected.value = imageVector
                                 /*todo: add navigation navController.navigate(~screen~) {
@@ -77,11 +79,11 @@ class MainActivity : ComponentActivity() {
                                 }*/
                             }
                         }
-                    }
+                    },
                 ) { innerPadding ->
                     Greeting(
                         name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
                     )
                 }
             }
@@ -91,26 +93,26 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BottomMenuIcon(modifier: Modifier, icon: ImageVector, contentDescription: String, isSelected: Boolean, onClick: (ImageVector) -> Unit) {
-        IconButton(
-            onClick = {
-                onClick.invoke(icon)
-            },
-            modifier = modifier
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = contentDescription,
-                modifier = Modifier.size(26.dp),
-                tint = if (isSelected) Color.Black else Color.Gray,
-            )
-        }
+    IconButton(
+        onClick = {
+            onClick.invoke(icon)
+        },
+        modifier = modifier,
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = contentDescription,
+            modifier = Modifier.size(26.dp),
+            tint = if (isSelected) Color.Black else Color.Gray,
+        )
+    }
 }
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
         text = "Hello $name!",
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
