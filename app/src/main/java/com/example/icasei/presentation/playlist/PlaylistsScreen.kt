@@ -56,6 +56,6 @@ fun PlayListItem(modifier: Modifier = Modifier, thumbnail: String, title: String
 
 @Preview
 @Composable
-fun PlaylistScreenPreview() {
+private fun PlaylistScreenPreview() {
     PlaylistScreen()
 }

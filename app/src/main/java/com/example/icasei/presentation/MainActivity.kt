@@ -24,7 +24,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.icasei.presentation.navigation.ScreensDestinations
+import com.example.icasei.presentation.navigation.favoritesScreen
+import com.example.icasei.presentation.navigation.homeScreen
+import com.example.icasei.presentation.navigation.navigateToFavorites
+import com.example.icasei.presentation.navigation.navigateToHome
+import com.example.icasei.presentation.navigation.navigateToPlaylists
+import com.example.icasei.presentation.navigation.playlistsScreen
 import com.example.icasei.ui.theme.IcaseiTheme
 
 class MainActivity : ComponentActivity() {
@@ -50,9 +58,7 @@ class MainActivity : ComponentActivity() {
                                 isSelected = (selected.value == Icons.Default.Home),
                             ) { imageVector ->
                                 selected.value = imageVector
-                                /*todo: add navigation navController.navigate(~screen~) {
-                                //popUpTo(0)
-                                }*/
+                                navController.navigateToHome()
                             }
 
                             BottomMenuIcon(
@@ -62,9 +68,7 @@ class MainActivity : ComponentActivity() {
                                 isSelected = (selected.value == Icons.Default.Favorite),
                             ) { imageVector ->
                                 selected.value = imageVector
-                                /*todo: add navigation navController.navigate(~screen~) {
-                                //popUpTo(0)
-                                }*/
+                                navController.navigateToFavorites()
                             }
 
                             BottomMenuIcon(
@@ -74,17 +78,20 @@ class MainActivity : ComponentActivity() {
                                 isSelected = (selected.value == Icons.Default.PlayArrow),
                             ) { imageVector ->
                                 selected.value = imageVector
-                                /*todo: add navigation navController.navigate(~screen~) {
-                                //popUpTo(0)
-                                }*/
+                                navController.navigateToPlaylists()
                             }
                         }
                     },
                 ) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    NavHost(
+                        navController = navController,
+                        startDestination = ScreensDestinations.HomeScreen.route,
                         modifier = Modifier.padding(innerPadding),
-                    )
+                    ) {
+                        homeScreen()
+                        favoritesScreen()
+                        playlistsScreen()
+                    }
                 }
             }
         }

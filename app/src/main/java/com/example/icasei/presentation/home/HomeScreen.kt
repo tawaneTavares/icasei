@@ -102,6 +102,6 @@ private fun SearchField(searchQuery: String, onQueryChanged: (String) -> Unit, m
 
 @Preview
 @Composable
-fun HomeScreenPreview() {
+private fun HomeScreenPreview() {
     HomeScreen()
 }
