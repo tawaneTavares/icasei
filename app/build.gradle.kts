@@ -4,7 +4,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -17,7 +19,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        buildConfigField("String", "YOUTUBE_API_KEY", "AIzaSyCr5rHiuc_4g4CsAnXK_eQj4VHFb6K8iNo")
+        buildConfigField("String", "YOUTUBE_API_KEY", "\"AIzaSyCr5rHiuc_4g4CsAnXK_eQj4VHFb6K8iNo\"")
+        buildConfigField("String", "BASE_URL", "\"https://www.googleapis.com/youtube/v3/\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,6 +43,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -82,9 +86,14 @@ dependencies {
     // player
     implementation(libs.youtube.player)
 
-    //requests
-    api(libs.squareup.converter.gson)
-    api(libs.squareup.logging.interceptor)
-    api(libs.squareup.retrofit)
-    implementation(libs.squareup.rest.json.converter)
+    // requests
+    implementation(libs.squareup.logging.interceptor)
+    implementation(libs.moshi)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter)
+
+    // Hilt
+    implementation(libs.androidx.hilt)
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
 }
