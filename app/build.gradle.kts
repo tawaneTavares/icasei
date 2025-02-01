@@ -17,6 +17,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "YOUTUBE_API_KEY", "AIzaSyCr5rHiuc_4g4CsAnXK_eQj4VHFb6K8iNo")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -80,4 +81,10 @@ dependencies {
 
     // player
     implementation(libs.youtube.player)
+
+    //requests
+    api(libs.squareup.converter.gson)
+    api(libs.squareup.logging.interceptor)
+    api(libs.squareup.retrofit)
+    implementation(libs.squareup.rest.json.converter)
 }
