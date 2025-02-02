@@ -81,13 +81,16 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             LazyColumn(
                 contentPadding = PaddingValues(top = 16.dp),
             ) {
-                items(3) { index ->
-                    VideoItem(
-                        modifier,
-                        title = uiState.searchData?.items?.get(index)?.snippet?.title ?: "",
-                        false,
-                        uiState.searchData?.items?.get(index)?.snippet?.thumbnails?.high?.url ?: "",
-                    ) // TODO: adicionar listagem vinda da api
+                uiState.searchData?.let { data ->
+                    items(data.items.size) { index ->
+                        val item = data.items.elementAt(index)
+                        VideoItem(
+                            modifier,
+                            title = item.snippet.title,
+                            false,
+                            item.snippet.thumbnails.high.url,
+                        )
+                    }
                 }
             }
         }
