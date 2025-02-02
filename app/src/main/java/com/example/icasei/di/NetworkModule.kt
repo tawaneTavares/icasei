@@ -1,11 +1,12 @@
 package com.example.icasei.di
 
 import com.example.icasei.BuildConfig
-import com.example.icasei.data.remote.IYoutubeApi
+import com.example.icasei.data.remote.api.IYoutubeApi
 import com.example.icasei.data.remote.IYoutubeRemoteData
 import com.example.icasei.data.remote.YoutubeRemoteData
 import com.example.icasei.domain.repository.IYoutubeRepository
-import com.example.icasei.domain.usecases.GetSearchUseCase
+import com.example.icasei.data.repository.YoutubeRepository
+import com.example.icasei.domain.usecase.GetSearchUseCase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -56,6 +57,9 @@ object NetworkModule {
 
     @Provides
     fun providesYoutubeRemoteData(apiClient: IYoutubeApi): IYoutubeRemoteData = YoutubeRemoteData(apiClient)
+
+    @Provides
+    fun providesYoutubeRepository(remoteData: IYoutubeRemoteData): IYoutubeRepository = YoutubeRepository(remoteData)
 
     @Provides
     fun providesGetSearchUseCase(repository: IYoutubeRepository): GetSearchUseCase = GetSearchUseCase(repository)

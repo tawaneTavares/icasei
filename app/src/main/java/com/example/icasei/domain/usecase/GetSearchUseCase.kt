@@ -1,4 +1,4 @@
-package com.example.icasei.domain.usecases
+package com.example.icasei.domain.usecase
 
 import com.example.icasei.common.State
 import com.example.icasei.data.remote.dto.SearchModel

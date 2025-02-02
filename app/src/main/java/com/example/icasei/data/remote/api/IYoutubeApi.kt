@@ -1,4 +1,4 @@
-package com.example.icasei.data.remote
+package com.example.icasei.data.remote.api
 
 import com.example.icasei.data.remote.dto.SearchModel
 import retrofit2.Response

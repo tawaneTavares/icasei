@@ -1,6 +1,7 @@
 package com.example.icasei.data.remote
 
 import com.example.icasei.common.BaseRemoteData
+import com.example.icasei.data.remote.api.IYoutubeApi
 import com.example.icasei.data.remote.dto.SearchModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

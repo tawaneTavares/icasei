@@ -1,7 +1,8 @@
-package com.example.icasei.domain.repository
+package com.example.icasei.data.repository
 
 import com.example.icasei.data.remote.IYoutubeRemoteData
 import com.example.icasei.data.remote.dto.SearchModel
+import com.example.icasei.domain.repository.IYoutubeRepository
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
