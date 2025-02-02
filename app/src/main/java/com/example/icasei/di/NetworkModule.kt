@@ -1,16 +1,20 @@
 package com.example.icasei.di
 
 import com.example.icasei.BuildConfig
-import com.example.icasei.data.remote.YoutubeServices
+import com.example.icasei.data.remote.IYoutubeApi
+import com.example.icasei.data.remote.IYoutubeRemoteData
+import com.example.icasei.data.remote.YoutubeRemoteData
+import com.example.icasei.domain.repository.IYoutubeRepository
+import com.example.icasei.domain.usecases.GetSearchUseCase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import javax.inject.Singleton
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -19,7 +23,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object NetworkModule {
     @Provides
     @Singleton
-    fun providesRetrofit(): YoutubeServices {
+    fun providesRetrofit(): IYoutubeApi {
         val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
         val client = OkHttpClient.Builder()
@@ -35,7 +39,6 @@ object NetworkModule {
             }
             .build()
 
-
         val moshi =
             Moshi
                 .Builder()
@@ -48,6 +51,12 @@ object NetworkModule {
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(client)
             .build()
-            .create(YoutubeServices::class.java)
+            .create(IYoutubeApi::class.java)
     }
+
+    @Provides
+    fun providesYoutubeRemoteData(apiClient: IYoutubeApi): IYoutubeRemoteData = YoutubeRemoteData(apiClient)
+
+    @Provides
+    fun providesGetSearchUseCase(repository: IYoutubeRepository): GetSearchUseCase = GetSearchUseCase(repository)
 }
