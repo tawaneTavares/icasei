@@ -32,11 +32,15 @@ import com.example.icasei.presentation.navigation.navigateToHome
 import com.example.icasei.presentation.navigation.navigateToPlaylists
 import com.example.icasei.presentation.navigation.playlistsScreen
 import com.example.icasei.ui.theme.IcaseiTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             IcaseiTheme {
                 val navController = rememberNavController()

@@ -17,6 +17,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,11 +26,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.icasei.presentation.components.VideoItem
+import com.example.icasei.presentation.uiState.HomeUiState
 
 @Composable
-fun HomeScreen() {
-    val modifier = Modifier
+fun HomeScreen(modifier: Modifier = Modifier) {
+    val homeViewModel = hiltViewModel<HomeViewModel>()
+    val uiState by homeViewModel.uiStateHome.collectAsState()
+
     Column(
         modifier =
         modifier
@@ -38,8 +44,7 @@ fun HomeScreen() {
     ) {
         SearchField(
             modifier = modifier.padding(top = 16.dp),
-            searchQuery = "",
-            onQueryChanged = {},
+            uiState,
         )
 
         LazyColumn(
@@ -54,10 +59,12 @@ fun HomeScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SearchField(searchQuery: String, onQueryChanged: (String) -> Unit, modifier: Modifier = Modifier) {
+private fun SearchField(modifier: Modifier = Modifier, uiState: HomeUiState) {
     TextField(
-        value = searchQuery,
-        onValueChange = onQueryChanged,
+        value = uiState.searchText,
+        onValueChange = {
+            uiState.onSearchTextValueChanged?.invoke(it)
+        },
         modifier =
         modifier
             .clip(
