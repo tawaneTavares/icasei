@@ -12,6 +12,8 @@ navigationCompose = "2.8.6"
 ktlint = "12.1.1"
 ksp = "2.0.21-1.0.26"
 
+coil = "2.6.0"
+
 youtubePlayer = "12.1.0"
 
 okhttp = "5.0.0-alpha.12"
@@ -38,6 +40,8 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 youtube-player = { group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "core", version.ref = "youtubePlayer" }
+
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 squareup-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }

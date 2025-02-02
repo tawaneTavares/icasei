@@ -83,6 +83,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // screen
+    implementation(libs.coil)
+
     // player
     implementation(libs.youtube.player)
 
