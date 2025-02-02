@@ -17,9 +17,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,13 +30,40 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.icasei.common.State
 import com.example.icasei.presentation.components.VideoItem
 import com.example.icasei.presentation.uiState.HomeUiState
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     val homeViewModel = hiltViewModel<HomeViewModel>()
     val uiState by homeViewModel.uiStateHome.collectAsState()
+    var showSuccess by remember { mutableStateOf(false) }
+    var loading by remember { mutableStateOf(false) }
+    var showError by remember { mutableStateOf(false) }
+    var msgError: State.Error? by remember { mutableStateOf(null) }
+
+    LaunchedEffect(Unit) {
+        homeViewModel.getSearch("")
+
+        homeViewModel.searchList.collectLatest {
+            when (it) {
+                is State.Data -> {
+                    uiState.searchData = it.data
+                    showSuccess = true
+                    loading = false
+                }
+
+                is State.Error -> {
+                    msgError = it
+                    showError = true
+                }
+                is State.Loading -> loading = true
+                else -> Unit
+            }
+        }
+    }
 
     Column(
         modifier =
@@ -47,11 +77,18 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             uiState,
         )
 
-        LazyColumn(
-            contentPadding = PaddingValues(top = 16.dp),
-        ) {
-            items(2) { index ->
-                VideoItem(modifier, title = index.toString(), false) // TODO: adicionar listagem vinda da api
+        if (showSuccess) {
+            LazyColumn(
+                contentPadding = PaddingValues(top = 16.dp),
+            ) {
+                items(3) { index ->
+                    VideoItem(
+                        modifier,
+                        title = uiState.searchData?.items?.get(index)?.snippet?.title ?: "",
+                        false,
+                        uiState.searchData?.items?.get(index)?.snippet?.thumbnails?.high?.url ?: "",
+                    ) // TODO: adicionar listagem vinda da api
+                }
             }
         }
     }
