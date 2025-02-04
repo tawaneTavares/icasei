@@ -63,7 +63,6 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
-    viewModel.updateQuery("")
     val paging = viewModel.searchList.collectAsLazyPagingItems()
 
     if (paging.loadState.refresh is LoadState.Error) {
@@ -134,7 +133,9 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
                             title = item.snippet.title,
                             false,
                             item.snippet.thumbnails.high.url,
-                        )
+                        ) { isFavorite ->
+                            viewModel.onFavoriteClick(item, isFavorite)
+                        }
                     }
                 }
             }
