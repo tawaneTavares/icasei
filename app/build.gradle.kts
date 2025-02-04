@@ -101,4 +101,9 @@ dependencies {
     implementation(libs.androidx.hilt)
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
+
+    // Room
+    implementation(libs.androidx.room)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
 }
