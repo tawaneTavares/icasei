@@ -85,6 +85,8 @@ dependencies {
 
     // screen
     implementation(libs.coil)
+    implementation(libs.paging)
+    implementation(libs.paging.compose)
 
     // player
     implementation(libs.youtube.player)

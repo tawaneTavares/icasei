@@ -1,26 +1,34 @@
 package com.example.icasei.presentation.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.icasei.common.State
-import com.example.icasei.data.remote.dto.SearchModel
 import com.example.icasei.domain.usecase.GetSearchUseCase
 import com.example.icasei.presentation.uiState.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getSearchUseCase: GetSearchUseCase,
 ) : ViewModel() {
 
-    private val _searchList = MutableStateFlow<State<SearchModel?>>(State.idle())
-    val searchList = _searchList.asStateFlow()
+    private val _query = MutableStateFlow("")
+    val query: String
+        get() = _query.value
+
+    val searchList = _query
+        .debounce(1000)
+        .flatMapLatest { query ->
+            getSearchUseCase.invoke(query)
+        }
 
     private val _uiStateHome = MutableStateFlow(HomeUiState())
     val uiStateHome: StateFlow<HomeUiState>
@@ -30,14 +38,7 @@ class HomeViewModel @Inject constructor(
         observeHomeFields()
     }
 
-    fun getSearch(text: String) {
-        viewModelScope.launch {
-            getSearchUseCase.execute(text)
-                .collect {
-                    _searchList.emit(it)
-                }
-        }
-    }
+    fun updateQuery(q: String) = _query.update { q }
 
     private fun observeHomeFields() {
         _uiStateHome.update { state ->

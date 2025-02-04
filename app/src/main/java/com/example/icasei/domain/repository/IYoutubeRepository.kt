@@ -1,9 +1,10 @@
 package com.example.icasei.domain.repository
 
-import com.example.icasei.data.remote.dto.SearchModel
+import androidx.paging.PagingData
+import com.example.icasei.domain.model.SearchItem
 import kotlinx.coroutines.flow.Flow
 
 interface IYoutubeRepository {
 
-    fun getSearch(text: String): Flow<SearchModel>
+    fun getSearch(text: String): Flow<PagingData<SearchItem>>
 }

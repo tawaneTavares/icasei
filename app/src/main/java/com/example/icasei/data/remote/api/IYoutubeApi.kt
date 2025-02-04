@@ -8,5 +8,11 @@ import retrofit2.http.Query
 interface IYoutubeApi {
 
     @GET("search")
-    suspend fun getSearch(@Query("part") part: String, @Query("type") type: String, @Query("q") text: String): Response<SearchModel>
+    suspend fun getSearch(
+        @Query("part") part: String,
+        @Query("type") type: String,
+        @Query("maxResults") maxResults: Int,
+        @Query("pageToken") pageToken: String,
+        @Query("q") text: String,
+    ): Response<SearchModel>
 }
