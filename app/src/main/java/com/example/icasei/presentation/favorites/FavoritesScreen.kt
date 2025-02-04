@@ -27,7 +27,8 @@ fun FavoritesScreen() {
             contentPadding = PaddingValues(top = 16.dp),
         ) {
             items(2) { index ->
-                VideoItem(modifier, title = index.toString(), false, "") // TODO: adicionar listagem
+                VideoItem(modifier, title = index.toString(), false, "") {
+                } // TODO: adicionar listagem
             }
         }
     }

@@ -56,6 +56,5 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onFavoriteClick(searchItem: SearchItem, isFavorite: Boolean) {
-
     }
 }

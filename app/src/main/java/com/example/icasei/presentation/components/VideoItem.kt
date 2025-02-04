@@ -79,6 +79,5 @@ fun VideoItem(modifier: Modifier, title: String, isFavorite: Boolean, imageUrl: 
 @Composable
 fun VideoItemPreview() {
     VideoItem(modifier = Modifier, "bla", false, "") {
-
     }
 }

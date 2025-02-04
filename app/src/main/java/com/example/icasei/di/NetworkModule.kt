@@ -1,9 +1,13 @@
 package com.example.icasei.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.icasei.BuildConfig
+import com.example.icasei.data.local.IcaseiDatabase
 import com.example.icasei.data.remote.IYoutubeRemoteData
 import com.example.icasei.data.remote.YoutubeRemoteData
 import com.example.icasei.data.remote.api.IYoutubeApi
+import com.example.icasei.data.repository.FavoriteRepository
 import com.example.icasei.data.repository.YoutubeRepository
 import com.example.icasei.domain.repository.IYoutubeRepository
 import com.example.icasei.domain.usecase.GetSearchUseCase
@@ -12,6 +16,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
@@ -63,4 +68,18 @@ object NetworkModule {
 
     @Provides
     fun providesGetSearchUseCase(repository: IYoutubeRepository): GetSearchUseCase = GetSearchUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideStarWarsDatabase(@ApplicationContext context: Context): IcaseiDatabase {
+        return Room.databaseBuilder(
+            context,
+            IcaseiDatabase::class.java,
+            "icasei.db",
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteDb(icaseiDb: IcaseiDatabase): FavoriteRepository = FavoriteRepository(icaseiDb)
 }
