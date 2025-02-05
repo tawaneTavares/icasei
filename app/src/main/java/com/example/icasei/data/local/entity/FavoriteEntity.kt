@@ -7,7 +7,7 @@ import com.example.icasei.domain.model.Favorite
 @Entity
 data class FavoriteEntity(
     @PrimaryKey
-    val videoId: Int,
+    val videoId: String,
     val title: String,
     val thumbnailUrl: String,
 )

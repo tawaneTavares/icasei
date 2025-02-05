@@ -4,7 +4,7 @@ import com.example.icasei.data.local.entity.FavoriteEntity
 
 data class Favorite(
     val title: String,
-    val videoId: Int,
+    val videoId: String,
     val thumbnailUrl: String,
 )
 

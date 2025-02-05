@@ -9,15 +9,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.example.icasei.common.State
 import com.example.icasei.data.remote.dto.SearchIdItem
 import com.example.icasei.data.remote.dto.SnippetItem
 import com.example.icasei.data.remote.dto.ThumbnailItem
@@ -25,9 +33,34 @@ import com.example.icasei.data.remote.dto.ThumbnailQualityItem
 import com.example.icasei.domain.model.SearchItem
 import com.example.icasei.presentation.components.VideoPlayer
 import com.example.icasei.ui.theme.Black
+import com.example.icasei.ui.theme.Red
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun VideoScreen(modifier: Modifier = Modifier, videoItem: SearchItem) {
+    val viewModel = hiltViewModel<VideoViewModel>()
+    var favoredChange by remember {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.checkFavorite(videoItem.id.videoId)
+
+        viewModel.isFavorite.collectLatest {
+            when (it) {
+                is State.Data -> {
+                    favoredChange = it.data ?: false
+                }
+
+                is State.Error -> {
+                    favoredChange = false
+                }
+
+                else -> Unit
+            }
+        }
+    }
+
     Column(
         modifier =
         modifier
@@ -50,17 +83,16 @@ fun VideoScreen(modifier: Modifier = Modifier, videoItem: SearchItem) {
             )
 
             Icon(
-//            imageVector = if (favoredChange) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                imageVector = Icons.Default.FavoriteBorder,
+                imageVector = if (favoredChange) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "favorite",
                 modifier =
                 modifier
                     .size(20.dp)
                     .clickable {
-//                    favoredChange = !favoredChange
-//                    onFavoriteClick?.let { it(favoredChange) }
+                        favoredChange = !favoredChange
+                        viewModel.updateFavorite(favoredChange, videoItem)
                     },
-                tint = Black,
+                tint = Red,
             )
         }
     }
