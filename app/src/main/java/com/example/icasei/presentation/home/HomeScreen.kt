@@ -129,13 +129,11 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
                 ) { index ->
                     paging[index]?.let { item ->
                         VideoItem(
-                            modifier,
+                            modifier = modifier,
                             title = item.snippet.title,
-                            false,
-                            item.snippet.thumbnails.high.url,
-                        ) { isFavorite ->
-                            viewModel.onFavoriteClick(item, isFavorite)
-                        }
+                            isFromFavoriteScreen = false,
+                            imageUrl = item.snippet.thumbnails.high.url,
+                        )
                     }
                 }
             }

@@ -30,7 +30,14 @@ import coil.request.ImageRequest
 import com.example.icasei.R
 
 @Composable
-fun VideoItem(modifier: Modifier, title: String, isFavorite: Boolean, imageUrl: String, onFavoriteClick: (Boolean) -> Unit) {
+fun VideoItem(
+    modifier: Modifier,
+    title: String,
+    isFavorite: Boolean = false,
+    isFromFavoriteScreen: Boolean,
+    imageUrl: String,
+    onFavoriteClick: ((Boolean) -> Unit)? = null,
+) {
     var favoredChange by remember {
         mutableStateOf(isFavorite)
     }
@@ -46,24 +53,27 @@ fun VideoItem(modifier: Modifier, title: String, isFavorite: Boolean, imageUrl: 
                     .build(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = modifier.fillMaxWidth()
+                modifier = modifier
+                    .fillMaxWidth()
                     .heightIn(max = 150.dp),
             )
 
-            Icon(
-                imageVector = if (favoredChange) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                contentDescription = "favorite",
-                modifier =
-                modifier
-                    .padding(top = 10.dp, end = 10.dp)
-                    .size(20.dp)
-                    .align(Alignment.TopEnd)
-                    .clickable {
-                        favoredChange = !favoredChange
-                        onFavoriteClick(favoredChange)
-                    },
-                tint = Color.White,
-            )
+            if (isFromFavoriteScreen) {
+                Icon(
+                    imageVector = if (favoredChange) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "favorite",
+                    modifier =
+                    modifier
+                        .padding(top = 10.dp, end = 10.dp)
+                        .size(20.dp)
+                        .align(Alignment.TopEnd)
+                        .clickable {
+                            favoredChange = !favoredChange
+                            onFavoriteClick?.let { it(favoredChange) }
+                        },
+                    tint = Color.White,
+                )
+            }
         }
 
         Text(
@@ -78,6 +88,5 @@ fun VideoItem(modifier: Modifier, title: String, isFavorite: Boolean, imageUrl: 
 @Preview
 @Composable
 fun VideoItemPreview() {
-    VideoItem(modifier = Modifier, "bla", false, "") {
-    }
+    VideoItem(modifier = Modifier, title = "bla", isFavorite = false, isFromFavoriteScreen = false, imageUrl = "")
 }

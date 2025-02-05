@@ -3,7 +3,6 @@ package com.example.icasei.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.icasei.domain.model.SearchItem
 import com.example.icasei.domain.usecase.GetSearchUseCase
 import com.example.icasei.presentation.uiState.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,8 +52,5 @@ class HomeViewModel @Inject constructor(
                 },
             )
         }
-    }
-
-    fun onFavoriteClick(searchItem: SearchItem, isFavorite: Boolean) {
     }
 }
