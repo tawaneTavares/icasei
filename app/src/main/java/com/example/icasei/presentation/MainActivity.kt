@@ -29,14 +29,21 @@ import com.example.icasei.presentation.navigation.homeScreen
 import com.example.icasei.presentation.navigation.navigateToFavorites
 import com.example.icasei.presentation.navigation.navigateToHome
 import com.example.icasei.presentation.navigation.navigateToPlaylists
+import com.example.icasei.presentation.navigation.navigateToVideo
 import com.example.icasei.presentation.navigation.playlistsScreen
+import com.example.icasei.presentation.navigation.videoScreen
 import com.example.icasei.ui.theme.Black
 import com.example.icasei.ui.theme.Grey
 import com.example.icasei.ui.theme.IcaseiTheme
+import com.squareup.moshi.Moshi
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var moshi: Moshi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,9 +99,14 @@ class MainActivity : ComponentActivity() {
                         startDestination = ScreensDestinations.HomeScreen.route,
                         modifier = Modifier.padding(innerPadding),
                     ) {
-                        homeScreen()
+                        homeScreen(
+                            onClickVideo = { videoItem ->
+                                navController.navigateToVideo(videoItem, moshi)
+                            },
+                        )
                         favoritesScreen()
                         playlistsScreen()
+                        videoScreen(moshi)
                     }
                 }
             }

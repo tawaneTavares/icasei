@@ -1,5 +1,6 @@
 package com.example.icasei.presentation.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.example.icasei.domain.model.SearchItem
 import com.example.icasei.presentation.components.VideoItem
 import com.example.icasei.presentation.uiState.HomeUiState
 import com.example.icasei.ui.theme.DarkGray
@@ -41,7 +43,7 @@ import com.example.icasei.ui.theme.Transparent
 import com.example.icasei.ui.theme.White
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier, onClickVideo: (SearchItem) -> Unit) {
     val homeViewModel = hiltViewModel<HomeViewModel>()
     val uiState by homeViewModel.uiStateHome.collectAsState()
 
@@ -59,12 +61,13 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         MainContent(
             modifier = modifier,
             viewModel = homeViewModel,
+            onClickVideo = onClickVideo,
         )
     }
 }
 
 @Composable
-fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
+fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel, onClickVideo: (SearchItem) -> Unit) {
     val paging = viewModel.searchList.collectAsLazyPagingItems()
 
     if (paging.loadState.refresh is LoadState.Error) {
@@ -131,7 +134,9 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
                 ) { index ->
                     paging[index]?.let { item ->
                         VideoItem(
-                            modifier = modifier,
+                            modifier = modifier.clickable {
+                                onClickVideo(item)
+                            },
                             title = item.snippet.title,
                             isFromFavoriteScreen = false,
                             imageUrl = item.snippet.thumbnails.high.url,
@@ -219,5 +224,6 @@ private fun SearchField(modifier: Modifier = Modifier, uiState: HomeUiState) {
 @Preview
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen {
+    }
 }

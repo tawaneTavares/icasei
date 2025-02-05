@@ -32,9 +32,18 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
     @Provides
     @Singleton
-    fun providesRetrofit(): IYoutubeApi {
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesRetrofit(moshi: Moshi): IYoutubeApi {
         val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
         val client = OkHttpClient.Builder()
@@ -49,12 +58,6 @@ object NetworkModule {
                 chain.proceed(chain.request().newBuilder().url(url).build())
             }
             .build()
-
-        val moshi =
-            Moshi
-                .Builder()
-                .add(KotlinJsonAdapterFactory())
-                .build()
 
         return Retrofit
             .Builder()
