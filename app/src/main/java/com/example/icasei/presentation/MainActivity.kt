@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
@@ -31,6 +30,8 @@ import com.example.icasei.presentation.navigation.navigateToFavorites
 import com.example.icasei.presentation.navigation.navigateToHome
 import com.example.icasei.presentation.navigation.navigateToPlaylists
 import com.example.icasei.presentation.navigation.playlistsScreen
+import com.example.icasei.ui.theme.Black
+import com.example.icasei.ui.theme.Grey
 import com.example.icasei.ui.theme.IcaseiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,7 +51,8 @@ class MainActivity : ComponentActivity() {
                     }
                 val modifier = Modifier
                 Scaffold(
-                    modifier = modifier.fillMaxSize(),
+                    modifier = modifier
+                        .fillMaxSize(),
                     bottomBar = {
                         BottomAppBar {
                             BottomMenuIcon(
@@ -112,7 +114,7 @@ fun BottomMenuIcon(modifier: Modifier, icon: ImageVector, contentDescription: St
             imageVector = icon,
             contentDescription = contentDescription,
             modifier = Modifier.size(26.dp),
-            tint = if (isSelected) Color.Black else Color.Gray,
+            tint = if (isSelected) Black else Grey,
         )
     }
 }

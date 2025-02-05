@@ -1,6 +1,5 @@
 package com.example.icasei.presentation.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,6 +34,11 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.example.icasei.presentation.components.VideoItem
 import com.example.icasei.presentation.uiState.HomeUiState
+import com.example.icasei.ui.theme.DarkGray
+import com.example.icasei.ui.theme.Grey
+import com.example.icasei.ui.theme.Red
+import com.example.icasei.ui.theme.Transparent
+import com.example.icasei.ui.theme.White
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
@@ -45,8 +48,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     Column(
         modifier =
         modifier
-            .fillMaxSize()
-            .background(Color.Black),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         SearchField(
@@ -67,7 +69,7 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
 
     if (paging.loadState.refresh is LoadState.Error) {
         Button(
-            modifier = Modifier
+            modifier = modifier
                 .padding(24.dp)
                 .fillMaxWidth(),
             onClick = {
@@ -79,7 +81,7 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
     }
 
     if (paging.loadState.refresh is LoadState.Loading) {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator() // todo: substituir por shimmer
         }
     }
@@ -87,7 +89,7 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
     if (paging.loadState.refresh is LoadState.NotLoading) {
         if (paging.itemCount == 0) {
             Box(
-                modifier = Modifier.fillMaxSize(1f),
+                modifier = modifier.fillMaxSize(1f),
                 contentAlignment = Alignment.Center,
             ) {
                 Text("Nothing found")
@@ -100,7 +102,7 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
     ) {
         item {
             if (paging.loadState.prepend is LoadState.Loading) {
-                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
@@ -109,7 +111,7 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
         item {
             if (paging.loadState.prepend is LoadState.Error) {
                 Button(
-                    modifier = Modifier
+                    modifier = modifier
                         .fillMaxWidth(),
                     onClick = {
                         paging.retry()
@@ -141,7 +143,7 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
 
         item {
             if (paging.loadState.append is LoadState.Loading) {
-                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Box(modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
@@ -149,7 +151,7 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
         item {
             if (paging.loadState.append is LoadState.Error) {
                 Button(
-                    modifier = Modifier
+                    modifier = modifier
                         .padding(24.dp)
                         .fillMaxWidth(),
                     onClick = {
@@ -185,31 +187,31 @@ private fun SearchField(modifier: Modifier = Modifier, uiState: HomeUiState) {
                 },
                 colors =
                 TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Transparent,
+                    unfocusedIndicatorColor = Transparent,
+                    disabledIndicatorColor = Transparent,
                 ),
                 focusedIndicatorLineThickness = 0.dp,
                 unfocusedIndicatorLineThickness = 0.dp,
             ),
-        placeholder = { Text(text = "Buscar vídeos", color = Color.Gray) },
+        placeholder = { Text(text = "Buscar vídeos", color = Grey) },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Rounded.Search,
                 contentDescription = "Buscar vídeos",
-                tint = Color.Gray,
+                tint = Grey,
             )
         },
         colors =
         TextFieldDefaults.colors(
-            focusedContainerColor = Color.DarkGray,
-            focusedTextColor = Color.White,
-            unfocusedContainerColor = Color.DarkGray,
-            unfocusedTextColor = Color.White,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            cursorColor = Color.Red,
+            focusedContainerColor = DarkGray,
+            focusedTextColor = White,
+            unfocusedContainerColor = DarkGray,
+            unfocusedTextColor = White,
+            focusedIndicatorColor = Transparent,
+            unfocusedIndicatorColor = Transparent,
+            disabledIndicatorColor = Transparent,
+            cursorColor = Red,
         ),
     )
 }
