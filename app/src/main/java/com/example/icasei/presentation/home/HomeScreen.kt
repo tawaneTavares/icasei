@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
@@ -41,6 +42,7 @@ import com.example.icasei.ui.theme.Grey
 import com.example.icasei.ui.theme.Red
 import com.example.icasei.ui.theme.Transparent
 import com.example.icasei.ui.theme.White
+import java.util.UUID
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, onClickVideo: (SearchItem) -> Unit) {
@@ -129,7 +131,7 @@ fun MainContent(modifier: Modifier = Modifier, viewModel: HomeViewModel, onClick
             if (paging.itemCount != 0) {
                 items(
                     count = paging.itemCount,
-                    key = paging.itemKey { (it.id.videoId + paging.itemCount) },
+                    key = paging.itemKey { (UUID.randomUUID().toString()) },
                     contentType = paging.itemContentType { "contentType" },
                 ) { index ->
                     paging[index]?.let { item ->
