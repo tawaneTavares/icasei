@@ -13,7 +13,7 @@ class VideoLocalData @Inject constructor(
 
     override fun getFavorites(): Flow<List<Favorite>> = flow {
         try {
-            appDatabase.favoriteDao.getAll().map { it.toFavorite() }
+            emit(appDatabase.favoriteDao.getAll().map { it.toFavorite() })
         } catch (e: Exception) {
             throw e
         }
@@ -21,7 +21,7 @@ class VideoLocalData @Inject constructor(
 
     override fun checkFavorite(videoId: String): Flow<Boolean> = flow {
         try {
-            appDatabase.favoriteDao.checkFavorite(videoId)
+            emit(appDatabase.favoriteDao.checkFavorite(videoId))
         } catch (e: Exception) {
             throw e
         }

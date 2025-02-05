@@ -10,59 +10,27 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.icasei.common.State
 import com.example.icasei.presentation.components.VideoItem
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun FavoritesScreen(modifier: Modifier = Modifier) {
     val viewModel = hiltViewModel<FavoritesViewModel>()
     val uiState by viewModel.uiStateFavorites.collectAsState()
-    var showSuccess by remember { mutableStateOf(false) }
-    var loading by remember { mutableStateOf(false) }
-    var showError by remember { mutableStateOf(false) }
-    var msgError: State.Error? by remember { mutableStateOf(null) }
-
-    LaunchedEffect(Unit) {
-        viewModel.getFavoritesList()
-
-        viewModel.favoritesList.collectLatest {
-            when (it) {
-                is State.Data -> {
-                    uiState.favoritesList = it.data
-                    showSuccess = true
-                    loading = false
-                }
-
-                is State.Error -> {
-                    msgError = it
-                    showError = true
-                }
-
-                is State.Loading -> loading = true
-                else -> Unit
-            }
-        }
-    }
 
     Box(
         modifier =
         modifier
             .fillMaxSize(),
     ) {
-        if (showSuccess) {
+        if (uiState.favoritesList != null) {
             LazyColumn(
                 contentPadding = PaddingValues(top = 16.dp),
             ) {
@@ -85,13 +53,13 @@ fun FavoritesScreen(modifier: Modifier = Modifier) {
                 }
             }
         }
-        if (loading) {
+        if (uiState.loading) {
             CircularProgressIndicator(modifier = modifier.align(Alignment.Center))
         }
 
-        if (showError) {
+        if (uiState.showError) {
             Text(
-                text = msgError?.cause?.message ?: "Algo deu errado",
+                text = uiState.msgError ?: "Algo deu errado",
                 color = MaterialTheme.colorScheme.error,
                 textAlign = TextAlign.Center,
                 modifier =

@@ -13,6 +13,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -22,18 +23,47 @@ class FavoritesViewModel @Inject constructor(
     private val deleteFavoriteUseCase: DeleteFavoriteUseCase,
 ) : ViewModel() {
 
-    private val _favoritesList = MutableStateFlow<State<List<Favorite>?>>(State.idle())
-    val favoritesList = _favoritesList.asStateFlow()
-
     private val _uiStateFavorites = MutableStateFlow(FavoritesUiState())
     val uiStateFavorites: StateFlow<FavoritesUiState>
         get() = _uiStateFavorites.asStateFlow()
 
-    fun getFavoritesList() {
+    init {
+        getFavoritesList()
+    }
+
+    private fun getFavoritesList() {
         viewModelScope.launch {
             getFavoriteUseCase.execute()
-                .collect {
-                    _favoritesList.emit(it)
+                .collectLatest { state ->
+
+                    when (state) {
+                        is State.Data -> {
+                            _uiStateFavorites.value = _uiStateFavorites.value.copy(
+                                favoritesList = state.data,
+                                loading = false,
+                                showError = false,
+                                msgError = null,
+                            )
+                        }
+
+                        is State.Error -> {
+                            _uiStateFavorites.value = _uiStateFavorites.value.copy(
+                                loading = false,
+                                showError = true,
+                                msgError = state.cause?.message,
+                            )
+                        }
+
+                        is State.Loading -> {
+                            _uiStateFavorites.value = _uiStateFavorites.value.copy(
+                                loading = true,
+                                showError = false,
+                                msgError = null,
+                            )
+                        }
+
+                        else -> Unit
+                    }
                 }
         }
     }
@@ -42,7 +72,10 @@ class FavoritesViewModel @Inject constructor(
         if (isFavorite) {
             addFavoriteUseCase(favorite)
         } else {
-            deleteFavoriteUseCase(favorite.title)
+            deleteFavoriteUseCase(favorite.videoId)
+            _uiStateFavorites.value = _uiStateFavorites.value.copy(
+                favoritesList = _uiStateFavorites.value.favoritesList?.filter { it.videoId != favorite.videoId },
+            )
         }
     }
 }
