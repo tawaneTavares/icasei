@@ -10,6 +10,7 @@ import com.example.icasei.domain.model.SearchItem
 import com.example.icasei.presentation.favorites.FavoritesScreen
 import com.example.icasei.presentation.home.HomeScreen
 import com.example.icasei.presentation.playlist.PlaylistScreen
+import com.example.icasei.presentation.profile.ProfileScreen
 import com.example.icasei.presentation.video.VideoScreen
 import com.squareup.moshi.Moshi
 
@@ -76,4 +77,16 @@ fun NavHostController.navigateToVideo(videoItem: SearchItem, moshi: Moshi) {
     val videoJson = moshi.adapter(SearchItem::class.java).toJson(videoItem)
     val encodedJson = Uri.encode(videoJson)
     navigate("${ScreensDestinations.VideoScreen.route}/$encodedJson")
+}
+
+fun NavGraphBuilder.profileScreen() {
+    composable(
+        route = ScreensDestinations.ProfileScreen.route,
+    ) {
+        ProfileScreen()
+    }
+}
+
+fun NavHostController.navigateToProfileScreen() {
+    navigate(ScreensDestinations.ProfileScreen.route)
 }

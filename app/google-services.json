@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "890806890570",
+    "project_id": "icasei-test-fca73",
+    "storage_bucket": "icasei-test-fca73.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890806890570:android:931f5e116a8a3104a576b3",
+        "android_client_info": {
+          "package_name": "com.example.icasei"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "890806890570-ogfdhgvmic0ir3dlmb4ho4o832mgjrvf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.icasei",
+            "certificate_hash": "84b405793754aace744ae59f5d7f5834681f60a2"
+          }
+        },
+        {
+          "client_id": "890806890570-1h1e0mmufsajipu030vmh9jiejsofqba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzia4oJQQ9ToxQZU9zMPk1gdLhdUjLW1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "890806890570-1h1e0mmufsajipu030vmh9jiejsofqba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -47,6 +47,7 @@ fun VideoItem(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(imageUrl)
                 .placeholder(R.drawable.ic_default_thumbnail)
+                .error(R.drawable.ic_default_thumbnail)
                 .build(),
             contentDescription = null,
             contentScale = ContentScale.Crop,

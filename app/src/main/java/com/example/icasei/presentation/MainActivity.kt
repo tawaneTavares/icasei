@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,9 +28,10 @@ import com.example.icasei.presentation.navigation.favoritesScreen
 import com.example.icasei.presentation.navigation.homeScreen
 import com.example.icasei.presentation.navigation.navigateToFavorites
 import com.example.icasei.presentation.navigation.navigateToHome
-import com.example.icasei.presentation.navigation.navigateToPlaylists
+import com.example.icasei.presentation.navigation.navigateToProfileScreen
 import com.example.icasei.presentation.navigation.navigateToVideo
 import com.example.icasei.presentation.navigation.playlistsScreen
+import com.example.icasei.presentation.navigation.profileScreen
 import com.example.icasei.presentation.navigation.videoScreen
 import com.example.icasei.ui.theme.Black
 import com.example.icasei.ui.theme.Grey
@@ -84,19 +85,19 @@ class MainActivity : ComponentActivity() {
 
                             BottomMenuIcon(
                                 modifier = modifier.weight(1f),
-                                icon = Icons.Default.PlayArrow,
-                                contentDescription = "My Lists",
-                                isSelected = (selected.value == Icons.Default.PlayArrow),
+                                icon = Icons.Default.AccountCircle,
+                                contentDescription = "Profile",
+                                isSelected = (selected.value == Icons.Default.AccountCircle),
                             ) { imageVector ->
                                 selected.value = imageVector
-                                navController.navigateToPlaylists()
+                                navController.navigateToProfileScreen()
                             }
                         }
                     },
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = ScreensDestinations.HomeScreen.route,
+                        startDestination = ScreensDestinations.ProfileScreen.route,
                         modifier = Modifier.padding(innerPadding),
                     ) {
                         homeScreen(
@@ -107,6 +108,7 @@ class MainActivity : ComponentActivity() {
                         favoritesScreen()
                         playlistsScreen()
                         videoScreen(moshi)
+                        profileScreen()
                     }
                 }
             }

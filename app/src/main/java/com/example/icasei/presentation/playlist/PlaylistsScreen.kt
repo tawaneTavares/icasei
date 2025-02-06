@@ -37,12 +37,11 @@ fun PlayListItem(modifier: Modifier = Modifier, title: String, imageUrl: String)
     Row(
         modifier = modifier.padding(horizontal = 10.dp, vertical = 5.dp),
     ) {
-        // todo: todas essas images devem ser substituidas por asyncImage
-
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(imageUrl)
                 .placeholder(R.drawable.ic_default_thumbnail)
+                .error(R.drawable.ic_default_thumbnail)
                 .build(),
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
