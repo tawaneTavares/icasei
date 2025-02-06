@@ -26,25 +26,21 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.icasei.common.State
-import com.example.icasei.data.remote.dto.SearchIdItem
-import com.example.icasei.data.remote.dto.SnippetItem
-import com.example.icasei.data.remote.dto.ThumbnailItem
-import com.example.icasei.data.remote.dto.ThumbnailQualityItem
-import com.example.icasei.domain.model.SearchItem
+import com.example.icasei.domain.model.VideoModel
 import com.example.icasei.presentation.components.VideoPlayer
 import com.example.icasei.ui.theme.Black
 import com.example.icasei.ui.theme.Red
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun VideoScreen(modifier: Modifier = Modifier, videoItem: SearchItem) {
+fun VideoScreen(modifier: Modifier = Modifier, videoItem: VideoModel) {
     val viewModel = hiltViewModel<VideoViewModel>()
     var favoredChange by remember {
         mutableStateOf(false)
     }
 
     LaunchedEffect(Unit) {
-        viewModel.checkFavorite(videoItem.id.videoId)
+        viewModel.checkFavorite(videoItem.id)
 
         viewModel.isFavorite.collectLatest {
             when (it) {
@@ -66,7 +62,7 @@ fun VideoScreen(modifier: Modifier = Modifier, videoItem: SearchItem) {
         modifier
             .fillMaxSize(),
     ) {
-        VideoPlayer(videoId = videoItem.id.videoId, LocalLifecycleOwner.current)
+        VideoPlayer(videoId = videoItem.id, LocalLifecycleOwner.current)
 
         Row(
             modifier = modifier
@@ -75,7 +71,7 @@ fun VideoScreen(modifier: Modifier = Modifier, videoItem: SearchItem) {
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                text = videoItem.snippet.title,
+                text = videoItem.title,
                 modifier = modifier
                     .weight(1f),
                 color = Black,
@@ -102,15 +98,11 @@ fun VideoScreen(modifier: Modifier = Modifier, videoItem: SearchItem) {
 @Composable
 private fun VideoScreenPreview() {
     VideoScreen(
-        videoItem = SearchItem(
-            id = SearchIdItem(videoId = "FgAL6T_KILw"),
-            SnippetItem(
-                publishedAt = "",
-                title = "ah ahs",
-                thumbnails = ThumbnailItem(high = ThumbnailQualityItem("")),
-                description = "",
-                channelTitle = "",
-            ),
+        videoItem = VideoModel(
+            id = "FgAL6T_KILw",
+            title = "ah ahs",
+            description = "",
+            thumbnail = "",
         ),
     )
 }

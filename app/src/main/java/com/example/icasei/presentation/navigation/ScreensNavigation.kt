@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.icasei.domain.model.SearchItem
+import com.example.icasei.domain.model.VideoModel
 import com.example.icasei.presentation.favorites.FavoritesScreen
 import com.example.icasei.presentation.home.HomeScreen
 import com.example.icasei.presentation.playlist.PlaylistScreen
@@ -14,7 +14,7 @@ import com.example.icasei.presentation.profile.ProfileScreen
 import com.example.icasei.presentation.video.VideoScreen
 import com.squareup.moshi.Moshi
 
-fun NavGraphBuilder.homeScreen(onClickVideo: (SearchItem) -> Unit) {
+fun NavGraphBuilder.homeScreen(onClickVideo: (VideoModel) -> Unit) {
     composable(
         route = ScreensDestinations.HomeScreen.route,
     ) {
@@ -65,7 +65,7 @@ fun NavGraphBuilder.videoScreen(moshi: Moshi) {
         val videoJson = backStackEntry.arguments?.getString(VIDEO_ITEM)
         videoJson?.let { json ->
             val decodedJson = Uri.decode(json)
-            val videoItem = moshi.adapter(SearchItem::class.java).fromJson(decodedJson)
+            val videoItem = moshi.adapter(VideoModel::class.java).fromJson(decodedJson)
             videoItem?.let {
                 VideoScreen(videoItem = it)
             }
@@ -73,8 +73,8 @@ fun NavGraphBuilder.videoScreen(moshi: Moshi) {
     }
 }
 
-fun NavHostController.navigateToVideo(videoItem: SearchItem, moshi: Moshi) {
-    val videoJson = moshi.adapter(SearchItem::class.java).toJson(videoItem)
+fun NavHostController.navigateToVideo(videoItem: VideoModel, moshi: Moshi) {
+    val videoJson = moshi.adapter(VideoModel::class.java).toJson(videoItem)
     val encodedJson = Uri.encode(videoJson)
     navigate("${ScreensDestinations.VideoScreen.route}/$encodedJson")
 }

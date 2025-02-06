@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(
         get() = _query.value
 
     val searchList = _query
-        .debounce(1000)
+        .debounce(2000)
         .flatMapLatest { query ->
             getSearchUseCase.invoke(query)
         }.cachedIn(viewModelScope)

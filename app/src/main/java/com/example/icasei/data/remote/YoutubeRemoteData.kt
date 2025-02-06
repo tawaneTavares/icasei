@@ -9,13 +9,13 @@ import com.example.icasei.data.remote.api.IYoutubeApi
 import com.example.icasei.data.remote.dto.SearchItemDto
 import com.example.icasei.data.remote.dto.toDomain
 import com.example.icasei.data.remote.pagingSource.YoutubeSearchPagingSource
-import com.example.icasei.domain.model.SearchItem
+import com.example.icasei.domain.model.VideoModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class YoutubeRemoteData(private val apiClient: IYoutubeApi) : BaseRemoteData(), IYoutubeRemoteData {
 
-    override fun searchVideos(text: String): Flow<PagingData<SearchItem>> = Pager(
+    override fun searchVideos(text: String): Flow<PagingData<VideoModel>> = Pager(
         config = PagingConfig(
             pageSize = 15,
             enablePlaceholders = false,

@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import com.example.icasei.data.local.IVideoLocalData
 import com.example.icasei.data.remote.IYoutubeRemoteData
 import com.example.icasei.domain.model.Favorite
-import com.example.icasei.domain.model.SearchItem
+import com.example.icasei.domain.model.VideoModel
 import com.example.icasei.domain.repository.IYoutubeRepository
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +16,7 @@ class YoutubeRepository @Inject constructor(
     private val localData: IVideoLocalData,
 ) : IYoutubeRepository {
 
-    override fun getSearch(text: String): Flow<PagingData<SearchItem>> = remoteData.searchVideos(text).flowOn(Dispatchers.IO)
+    override fun getSearch(text: String): Flow<PagingData<VideoModel>> = remoteData.searchVideos(text).flowOn(Dispatchers.IO)
 
     override fun getFavorites(): Flow<List<Favorite>> = localData.getFavorites()
         .flowOn(Dispatchers.IO)

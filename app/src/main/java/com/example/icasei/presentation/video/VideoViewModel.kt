@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.icasei.common.State
 import com.example.icasei.domain.model.Favorite
-import com.example.icasei.domain.model.SearchItem
+import com.example.icasei.domain.model.VideoModel
 import com.example.icasei.domain.usecase.AddFavoriteUseCase
 import com.example.icasei.domain.usecase.CheckFavoriteUseCase
 import com.example.icasei.domain.usecase.DeleteFavoriteUseCase
@@ -33,11 +33,11 @@ class VideoViewModel @Inject constructor(
         }
     }
 
-    fun updateFavorite(isFavorite: Boolean, videoItem: SearchItem) = viewModelScope.launch {
+    fun updateFavorite(isFavorite: Boolean, videoItem: VideoModel) = viewModelScope.launch {
         if (isFavorite) {
-            addFavoriteUseCase(Favorite(videoItem.snippet.title, videoItem.id.videoId, videoItem.snippet.thumbnails.high.url))
+            addFavoriteUseCase(Favorite(videoItem.title, videoItem.id, videoItem.thumbnail))
         } else {
-            deleteFavoriteUseCase(videoItem.snippet.title)
+            deleteFavoriteUseCase(videoItem.title)
         }
     }
 }

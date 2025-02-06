@@ -1,5 +1,6 @@
 package com.example.icasei.presentation.favorites
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,7 +41,9 @@ fun FavoritesScreen(modifier: Modifier = Modifier) {
                     ) { index ->
                         favoritesList[index].let { item ->
                             VideoItem(
-                                modifier = modifier.animateItem(),
+                                modifier = modifier.clickable {
+//                                    onClickVideo(item)
+                                }.animateItem(),
                                 title = item.title,
                                 isFavorite = true,
                                 isFromFavoriteScreen = true,
