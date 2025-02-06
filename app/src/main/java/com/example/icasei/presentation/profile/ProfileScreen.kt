@@ -4,8 +4,10 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -45,7 +48,10 @@ import com.example.icasei.R
 import com.example.icasei.common.GoogleAuthClient
 import com.example.icasei.presentation.localPush.LocalNotificationService
 import com.example.icasei.presentation.localPush.NotificationData
+import com.example.icasei.ui.theme.Transparent
 import com.example.icasei.ui.theme.White
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import kotlinx.coroutines.launch
 
 @Composable
@@ -62,6 +68,8 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
     val user = googleAuthClient.getFirebaseAuth()
 
     var showNotificationDialog by remember { mutableStateOf(false) }
+
+    var showUrlDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -114,14 +122,26 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
         }
 
         if (showNotificationDialog) {
-            ButtonNotification({
-                service.showNotification(
-                    NotificationData(
-                        "FgAL6T_KILw",
-                    ),
-                )
-                showNotificationDialog = false
-            }, context)
+            ButtonNotification(
+                {
+                    showUrlDialog = true
+                    showNotificationDialog = false
+                },
+                context,
+            )
+        }
+
+        if (showUrlDialog) {
+            AskForUrl(
+                onClickDialogListener = { videoId ->
+                    service.showNotification(
+                        NotificationData(
+                            videoId,
+                        ),
+                    )
+                    showUrlDialog = false
+                },
+            )
         }
 
         if (isSignIn) {
@@ -193,23 +213,50 @@ fun ButtonNotification(onClickDialogListener: () -> Unit, context: Context) {
     }
 }
 
+private fun getYouTubeId(youTubeUrl: String): String {
+    val pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*"
+    val compiledPattern: Pattern = Pattern.compile(pattern)
+    val matcher: Matcher = compiledPattern.matcher(youTubeUrl)
+    return if (matcher.find()) {
+        matcher.group()
+    } else {
+        "error"
+    }
+}
+
 @Composable
-fun AskForPermission(modifier: Modifier = Modifier, onClickDialogListener: () -> Unit) {
+fun AskForUrl(modifier: Modifier = Modifier, onClickDialogListener: (String) -> Unit) {
+    val text = remember { mutableStateOf("") }
     AlertDialog(
         modifier = modifier,
-        onDismissRequest = onClickDialogListener,
+        onDismissRequest = {
+            onClickDialogListener.invoke(getYouTubeId(text.value))
+        },
         title = {
-            Text(modifier = modifier, text = "Permissão de notificação")
+            Text(modifier = modifier, text = "Digite o link do vídeo")
         },
         text = {
-            Text(modifier = modifier, text = "Precisamos da sua permissão para enviar notificações")
+            TextField(
+                value = text.value,
+                onValueChange = {
+                    text.value = it
+                },
+                label = {
+                    Text(text = "Link do vídeo")
+                },
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .background(Transparent),
+            )
         },
         confirmButton = {
             TextButton(
-                onClick = onClickDialogListener,
+                onClick = {
+                    onClickDialogListener.invoke(getYouTubeId(text.value))
+                },
                 modifier = modifier,
             ) {
-                Text(modifier = modifier, text = "Permitir")
+                Text(modifier = modifier, text = "Enviar")
             }
         },
         containerColor = White,
