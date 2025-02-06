@@ -1,5 +1,8 @@
 package com.example.icasei.presentation.localPush
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class NotificationData(
-    var videoUrl: String = "",
+    var videoID: String = "",
 )

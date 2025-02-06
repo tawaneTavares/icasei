@@ -20,7 +20,7 @@ class IcaseiApplication : Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 LocalNotificationService.PUSH_CHANNEL_ID,
-                "Video Push",
+                "video_push",
                 NotificationManager.IMPORTANCE_DEFAULT,
             )
             channel.description = "Used for show videos notifications"

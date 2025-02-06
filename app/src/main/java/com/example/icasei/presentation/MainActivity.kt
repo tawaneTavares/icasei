@@ -1,6 +1,7 @@
 package com.example.icasei.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -21,15 +22,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
+import com.example.icasei.common.Constants.DEEPLINK_DOMAIN
 import com.example.icasei.presentation.navigation.ScreensDestinations
 import com.example.icasei.presentation.navigation.favoritesScreen
 import com.example.icasei.presentation.navigation.homeScreen
 import com.example.icasei.presentation.navigation.navigateToFavorites
 import com.example.icasei.presentation.navigation.navigateToHome
+import com.example.icasei.presentation.navigation.navigateToPlayer
 import com.example.icasei.presentation.navigation.navigateToProfileScreen
 import com.example.icasei.presentation.navigation.navigateToVideo
+import com.example.icasei.presentation.navigation.playerScreen
 import com.example.icasei.presentation.navigation.playlistsScreen
 import com.example.icasei.presentation.navigation.profileScreen
 import com.example.icasei.presentation.navigation.videoScreen
@@ -100,6 +108,20 @@ class MainActivity : ComponentActivity() {
                         startDestination = ScreensDestinations.ProfileScreen.route,
                         modifier = Modifier.padding(innerPadding),
                     ) {
+                        composable(
+                            route = "notification_data?videoID={videoID}",
+                            deepLinks = listOf(
+                                navDeepLink {
+                                    uriPattern = "https://$DEEPLINK_DOMAIN/?videoID={videoID}"
+                                },
+                            ),
+                            arguments = listOf(navArgument("videoID") { type = NavType.StringType }),
+                        ) { backStackEntry ->
+                            val videoId = backStackEntry.arguments?.getString("videoID")
+                            if (videoId != null) {
+                                navController.navigateToPlayer(videoId)
+                            }
+                        }
                         homeScreen(
                             onClickVideo = { videoItem ->
                                 navController.navigateToVideo(videoItem, moshi)
@@ -113,6 +135,7 @@ class MainActivity : ComponentActivity() {
                         playlistsScreen()
                         videoScreen(moshi)
                         profileScreen()
+                        playerScreen()
                     }
                 }
             }

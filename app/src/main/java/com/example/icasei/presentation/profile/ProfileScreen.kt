@@ -114,10 +114,10 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
         }
 
         if (showNotificationDialog) {
-            ButtonNotification(modifier, {
+            ButtonNotification({
                 service.showNotification(
                     NotificationData(
-                        "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                        "FgAL6T_KILw",
                     ),
                 )
                 showNotificationDialog = false
@@ -164,7 +164,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ButtonNotification(modifier: Modifier = Modifier, onClickDialogListener: () -> Unit, context: Context) {
+fun ButtonNotification(onClickDialogListener: () -> Unit, context: Context) {
     var hasPermission by remember {
         mutableStateOf(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

@@ -11,6 +11,7 @@ import com.example.icasei.presentation.favorites.FavoritesScreen
 import com.example.icasei.presentation.home.HomeScreen
 import com.example.icasei.presentation.playlist.PlaylistScreen
 import com.example.icasei.presentation.profile.ProfileScreen
+import com.example.icasei.presentation.video.PlayerScreen
 import com.example.icasei.presentation.video.VideoScreen
 import com.squareup.moshi.Moshi
 
@@ -54,7 +55,7 @@ fun NavHostController.navigateToPlaylists() {
     navigate(ScreensDestinations.PlaylistsScreen.route)
 }
 
-private const val VIDEO_ITEM = "videoITem"
+private const val VIDEO_ITEM = "videoItem"
 
 fun NavGraphBuilder.videoScreen(moshi: Moshi) {
     composable(
@@ -91,4 +92,25 @@ fun NavGraphBuilder.profileScreen() {
 
 fun NavHostController.navigateToProfileScreen() {
     navigate(ScreensDestinations.ProfileScreen.route)
+}
+
+private const val VIDEO_ID = "videoId"
+
+fun NavGraphBuilder.playerScreen() {
+    composable(
+        route = "${ScreensDestinations.PlayerScreen.route}/{$VIDEO_ID}",
+        arguments = listOf(
+            navArgument(VIDEO_ID) { type = NavType.StringType },
+        ),
+    ) { backStackEntry ->
+
+        val videoID = backStackEntry.arguments?.getString(VIDEO_ID)
+        if (videoID != null) {
+            PlayerScreen(videoId = videoID)
+        }
+    }
+}
+
+fun NavHostController.navigateToPlayer(videoItem: String) {
+    navigate("${ScreensDestinations.PlayerScreen.route}/$videoItem")
 }
