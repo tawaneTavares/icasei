@@ -6,6 +6,5 @@ import com.squareup.moshi.JsonClass
 data class VideoModel(
     val id: String,
     val title: String,
-    val description: String,
     val thumbnail: String,
 )

@@ -28,11 +28,13 @@ fun NavHostController.navigateToHome() {
     navigate(ScreensDestinations.HomeScreen.route)
 }
 
-fun NavGraphBuilder.favoritesScreen() {
+fun NavGraphBuilder.favoritesScreen(onClickVideo: (VideoModel) -> Unit) {
     composable(
         route = ScreensDestinations.FavoritesScreen.route,
     ) {
-        FavoritesScreen()
+        FavoritesScreen(
+            onClickVideo = onClickVideo,
+        )
     }
 }
 

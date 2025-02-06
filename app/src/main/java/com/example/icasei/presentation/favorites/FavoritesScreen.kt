@@ -19,10 +19,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.icasei.domain.model.VideoModel
 import com.example.icasei.presentation.components.VideoItem
 
 @Composable
-fun FavoritesScreen(modifier: Modifier = Modifier) {
+fun FavoritesScreen(modifier: Modifier = Modifier, onClickVideo: (VideoModel) -> Unit) {
     val viewModel = hiltViewModel<FavoritesViewModel>()
     val uiState by viewModel.uiStateFavorites.collectAsState()
 
@@ -41,9 +42,11 @@ fun FavoritesScreen(modifier: Modifier = Modifier) {
                     ) { index ->
                         favoritesList[index].let { item ->
                             VideoItem(
-                                modifier = modifier.clickable {
-//                                    onClickVideo(item)
-                                }.animateItem(),
+                                modifier = modifier
+                                    .clickable {
+                                        onClickVideo(VideoModel(item.videoId, item.title, item.thumbnailUrl))
+                                    }
+                                    .animateItem(),
                                 title = item.title,
                                 isFavorite = true,
                                 isFromFavoriteScreen = true,
@@ -78,5 +81,6 @@ fun FavoritesScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun FavoritesPreview() {
-    FavoritesScreen()
+    FavoritesScreen {
+    }
 }

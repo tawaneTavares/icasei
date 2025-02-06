@@ -101,7 +101,6 @@ private fun VideoScreenPreview() {
         videoItem = VideoModel(
             id = "FgAL6T_KILw",
             title = "ah ahs",
-            description = "",
             thumbnail = "",
         ),
     )

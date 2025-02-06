@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val selected =
                     remember {
-                        mutableStateOf(Icons.Default.Home)
+                        mutableStateOf(Icons.Default.AccountCircle)
                     }
                 val modifier = Modifier
                 Scaffold(
@@ -97,7 +97,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = ScreensDestinations.HomeScreen.route,
+                        startDestination = ScreensDestinations.ProfileScreen.route,
                         modifier = Modifier.padding(innerPadding),
                     ) {
                         homeScreen(
@@ -105,7 +105,11 @@ class MainActivity : ComponentActivity() {
                                 navController.navigateToVideo(videoItem, moshi)
                             },
                         )
-                        favoritesScreen()
+                        favoritesScreen(
+                            onClickVideo = { videoItem ->
+                                navController.navigateToVideo(videoItem, moshi)
+                            },
+                        )
                         playlistsScreen()
                         videoScreen(moshi)
                         profileScreen()

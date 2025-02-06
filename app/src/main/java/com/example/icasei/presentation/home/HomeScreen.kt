@@ -1,6 +1,5 @@
 package com.example.icasei.presentation.home
 
-import androidx.activity.result.launch
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box

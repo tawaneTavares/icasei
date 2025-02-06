@@ -11,7 +11,6 @@ fun SearchItemDto.toDomain(): VideoModel {
     return VideoModel(
         id = id.videoId,
         title = snippet.title,
-        description = snippet.description,
         thumbnail = snippet.thumbnails.high.url,
     )
 }
