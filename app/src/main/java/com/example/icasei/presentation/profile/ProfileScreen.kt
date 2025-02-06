@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -31,6 +32,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.icasei.R
 import com.example.icasei.common.GoogleAuthClient
+import com.example.icasei.presentation.localPush.LocalNotificationService
+import com.example.icasei.presentation.localPush.NotificationData
 import kotlinx.coroutines.launch
 
 @Composable
@@ -38,6 +41,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val googleAuthClient = GoogleAuthClient(context)
+    val service = LocalNotificationService(context)
 
     var isSignIn by rememberSaveable {
         mutableStateOf(googleAuthClient.isSingedIn())
@@ -86,6 +90,12 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
         )
 
         Spacer(modifier = modifier.weight(1f))
+
+        Button(onClick = {
+            service.showNotification(NotificationData("https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+        }) {
+            Text(text = "Mandar notificação")
+        }
 
         if (isSignIn) {
             OutlinedButton(
